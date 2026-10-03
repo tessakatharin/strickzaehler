@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Strickzähler</title>
+<meta name="theme-color" content="#faf6f1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1c1917" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Strickzähler">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icons/icon-180.png">
+<link rel="icon" type="image/svg+xml" href="./icons/icon.svg">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<main>
+<div id="vi">
+  <div><h1>🧶 Strickzähler</h1><p class="sub">Deine Strickprojekte</p></div>
+  <div id="pl"></div>
+  <button class="big" onclick="newP()">+ Neues Projekt</button>
+  <div id="al"></div>
+  <section class="card bk">
+    <h2>Sicherung</h2>
+    <p class="hint" style="margin-top:0">Stand als Text oder Datei sichern oder übernehmen, zum Beispiel beim Wechsel zwischen Safari und der installierten App. Das Löschen der Websitedaten entfernt den Stand.</p>
+    <textarea id="bt" rows="5" placeholder="Hier erscheint der exportierte Text. Zum Importieren Text einfügen oder Datei laden."></textarea>
+    <div class="tools"><button class="ghost" onclick="bkShow()">Text anzeigen</button><button class="ghost" onclick="bkCopy()">Kopieren</button></div>
+    <div class="tools"><button class="ghost" onclick="bkFile()">Als Datei speichern</button><button class="ghost" onclick="document.getElementById('bf').click()">Datei laden</button></div>
+    <div class="tools"><button onclick="bkImport()">Importieren</button></div>
+    <input type="file" id="bf" hidden accept=".json,application/json,text/plain" onchange="bkLoad(this)">
+    <p class="msg" id="bm"></p>
+  </section>
+</div>
+<div id="vp" hidden>
+  <div class="hd"><button class="ghost back" onclick="up()">←</button><div><h1 id="pt"></h1><p class="sub">Zähler im Projekt</p></div></div>
+  <div id="cl"></div>
+  <button class="big" onclick="newC()">+ Neuer Zähler</button>
+</div>
+<div id="vc" hidden>
+  <div class="hd"><button class="ghost back" onclick="up()">←</button><div><h1 id="ct"></h1><p class="sub" id="cs"></p></div></div>
+
+  <section class="card now">
+    <div class="rn" id="rn"></div>
+    <div class="task" id="task"></div>
+    <button class="go" id="go" onclick="next()">Reihe fertig</button>
+    <div class="tools">
+      <button class="ghost" id="undo" onclick="undo()">↶ Rückgängig</button>
+    </div>
+    <div class="chips" id="chips"></div>
+    <label class="chk" id="wl" hidden><input type="checkbox" id="wlc" onchange="wake(this.checked)">Bildschirm anlassen</label>
+    <div class="legend"><span style="color:var(--inc)">Z</span> = Zunahme · <span style="color:var(--dec)">A</span> = Abnahme</div>
+  </section>
+
+  <section class="card">
+    <div class="stats">
+      <div class="stat" style="--c:var(--dec)"><b id="dec">0</b><span>Abnahme-Reihen</span>
+        <div class="pm"><button onclick="man('dec',-1)">−</button><button onclick="man('dec',1)">+</button></div></div>
+      <div class="stat" style="--c:var(--inc)"><b id="inc">0</b><span>Zunahmen-Reihen</span>
+        <div class="pm"><button onclick="man('inc',-1)">−</button><button onclick="man('inc',1)">+</button></div></div>
+      <div class="stat" style="--c:var(--tot)"><b id="tot">0</b><span>Gesamtreihen</span>
+        <div class="pm"><button onclick="man('tot',-1)">−</button><button onclick="man('tot',1)">+</button></div></div>
+    </div>
+    <p class="hint">± korrigiert von Hand. Ab-/Zunahmen zählen dabei in der Gesamtzahl mit.</p>
+  </section>
+
+  <section class="card">
+    <h2>Abschnitte</h2>
+    <div id="secs"></div>
+    <div class="tools">
+      <button onclick="addSec()">+ Abschnitt</button>
+      <button class="ghost" id="reset" onclick="resetAll()">Alles zurücksetzen</button>
+    </div>
+    <p class="hint">Bei „Einzelreihen" Nummern mit Komma trennen, Bereiche mit Bindestrich (5-8). Fallen beide auf dieselbe Reihe, werden beide gezählt.</p>
+  </section>
+</div>
+</main>
+<div class="ov" id="ov" hidden><div class="card dl"><p id="dm"></p><input id="di" type="text" onkeydown="if(event.key==='Enter')dclose(true)"><div class="tools"><button class="ghost" onclick="dclose(false)">Abbrechen</button><button id="dok" onclick="dclose(true)">OK</button></div></div></div>
+<script src="./app.js"></script>
+</body>
+</html>
